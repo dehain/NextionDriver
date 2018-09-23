@@ -20,6 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <syslog.h>
 
 #include "NextionDriver.h"
 #include "basicFunctions.h"
@@ -52,6 +53,27 @@ void processCommands() {
 //
 //---------------------------------------------------------------------
 
+char last_time[512];
 
+//writelog(LOG_NOTICE,"processCommands %s",TXbuffer);
+//writelog(LOG_NOTICE,"page: %d", page );
+
+if( page == 0 )
+	{
+	if( strstr( TXbuffer, "t2.txt=" ) > 0 )
+		{
+		if( strcmp( TXbuffer, last_time ) == 0 )
+			{
+			//writelog(LOG_NOTICE, "time hasn't changed" );
+			TXbuffer[0] = 0;
+			}
+		else
+			{
+			sprintf( last_time, "%s", TXbuffer );
+			}
+		}
+
+
+	}
 }
 
